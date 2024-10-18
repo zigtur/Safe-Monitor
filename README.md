@@ -1,6 +1,6 @@
 # Safe-Monitor
 
-## What is this project?
+## What is this project?
 
 The goal of this project is to monitor new pending transactions for Safe Wallets.
 
