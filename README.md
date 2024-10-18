@@ -12,6 +12,8 @@ to increase confidence of its validity.
 
 *Note: This project can be used as a sort of 2FA. :warning: This is not a security recommendation!!! :warning:*
 
+![SafeMonitor Bot](./images/SafeMonitor.png)
+
 ### The hashes are different, why?
 
 If the hash you read from your Safe Wallet interface is different than the hash you read from your phone on Discord, then there is an issue.
