@@ -63,3 +63,7 @@ To run the dev mode:
 npm install
 npm run dev
 ```
+
+## Contributions
+
+Do not hesitate to open a PR to contribute to the project!
