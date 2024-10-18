@@ -2,7 +2,7 @@
 
 ## What is this project?
 
-The goal of this project is to monitor new pending transactions for Safe Wallets.
+The goal of this project is to monitor **new** pending transactions for Safe Wallets.
 
 It can be used as an alternative way to get data from the Safe servers.
 This can be particularly useful to check the transaction hash you are going to sign.
