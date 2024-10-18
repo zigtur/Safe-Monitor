@@ -1,0 +1,33 @@
+{
+  "name": "monitoringsafetxs",
+  "version": "1.0.0",
+  "description": "This is a project that aims to monitor Safe tx and sends new pending transactions to Discord",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.js",
+    "build": "tsup src/index.ts --minify",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zigtur/Safe-Monitor.git"
+  },
+  "author": "Zigtur",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zigtur/Safe-Monitor/issues"
+  },
+  "homepage": "https://github.com/zigtur/Safe-Monitor#readme",
+  "dependencies": {
+    "@safe-global/api-kit": "^2.5.2",
+    "@safe-global/sdk-starter-kit": "^1.0.2",
+    "discord.js": "^14.16.3",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "tsup": "^8.3.0",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.3"
+  }
+}
