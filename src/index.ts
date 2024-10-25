@@ -30,6 +30,16 @@ async function sendDiscordAlert(client: any, safe: string, nonce: string, txHash
     await channel.send({ embeds: [embed] });
 }
 
+async function initMsg(client: any) {
+    const embed = new Discord.EmbedBuilder()
+        .setColor(0xAB16F1)
+        .setTitle("Ready")
+        .setAuthor({ name: 'Safe Tx Monitor', iconURL: 'https://i.ibb.co/Rzy5kcX/bot.jpg' })
+
+    const channel = await client.channels.fetch(channel_id);
+    await channel.send({ embeds: [embed] });
+}
+
 // Main function
 async function main() {
     const params = JSON.parse(await readFile(process.env.PARAMS_FILE));
@@ -48,9 +58,8 @@ async function main() {
     // Event listener once the bot is ready
     client.once('ready', () => {
         console.log('Discord bot initialized!');
-        const initString = "0";
-        sendDiscordAlert(client, initString, initString, initString);
     });
+    initMsg(client);
 
     // Infinite loop to poll for new transactions
     while (true) {
@@ -73,10 +82,8 @@ async function main() {
             }));
         } catch (error: any) {
             if (error.message === 'Not Found') {
-                // Spécifique pour l'erreur "Not Found"
                 console.warn("No transactions found");
             } else {
-                // Autres erreurs
                 console.error("Error :", error);
             }
         }

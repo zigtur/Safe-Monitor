@@ -34,16 +34,17 @@ DISCORD_CHANNEL_ID=""
 DISCORD_TOKEN=""
 ```
 
-Then, set up your settings in `params.json`:
+Then, set up your settings in `.params.json`:
 
 ```json
 {
-    "safe-transaction-url": "",
     "safeWalletAddresses": [
-        "YOUR_SAFE_WALLET_ADDRESS"
+        "SAFE_WALLET_ADDRESS_1",
+        "SAFE_WALLET_ADDRESS_2"
     ],
-    "chainId": "CHAIN_ID"
+    "chainId": ["CHAIN_ID_1", "CHAIN_ID_2"]
 }
+
 ```
 
 You are good to go!
@@ -63,6 +64,19 @@ To run the dev mode:
 npm install
 npm run dev
 ```
+## Docker
+
+Install [Docker](https://www.docker.com/).
+
+Create a `.params.json` file with your addresses and chain IDs you want to monitor.
+
+```bash
+source .env
+
+sudo docker build -t monitoringsafetxs .
+
+docker run -d --name safe-tx-monitor-container -e DISCORD_TOKEN=${DISCORD_TOKEN} -e DISCORD_CHANNEL_ID=${DISCORD_CHANNEL_ID} -e PARAMS_FILE="./.params.json" monitoringsafetxs
+````
 
 ## Contributions
 

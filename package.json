@@ -2,11 +2,11 @@
   "name": "monitoringsafetxs",
   "version": "1.0.0",
   "description": "This is a project that aims to monitor Safe tx and sends new pending transactions to Discord",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "start": "node dist/index.js",
-    "build": "tsup src/index.ts --minify",
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
