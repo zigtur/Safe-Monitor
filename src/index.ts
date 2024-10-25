@@ -34,11 +34,10 @@ async function sendDiscordAlert(client: any, safe: string, nonce: string, txHash
 async function main() {
     const params = JSON.parse(await readFile(process.env.PARAMS_FILE));
 
-    const apiKit = new SafeApiKit({
-        chainId: params.chainId, // set the correct chainId from params
-    });
-
     const safeAddresses = params.safeWalletAddresses;
+    const apiKitArray: SafeApiKit[] = params.chainId.map((id: any) => {
+        return new SafeApiKit({ chainId: id });
+    });
 
     // Initialize Discord bot
     const client = new Discord.Client({ intents: [Discord.GatewayIntentBits.Guilds] });
@@ -49,27 +48,37 @@ async function main() {
     // Event listener once the bot is ready
     client.once('ready', () => {
         console.log('Discord bot initialized!');
+        const initString = "0";
+        sendDiscordAlert(client, initString, initString, initString);
     });
 
     // Infinite loop to poll for new transactions
     while (true) {
         try {
-            // Fetch and process pending transactions for each safe address
-            await Promise.all(safeAddresses.map(async (safeAddress: string) => {
-                const pendingTxs = await apiKit.getPendingTransactions(safeAddress);
+            // Fetch and process pending transactions for each safe address on each chainId
+            await Promise.all(apiKitArray.map(async (apiKit, index) => {
+                await Promise.all(safeAddresses.map(async (safeAddress: string) => {
+                    const pendingTxs = await apiKit.getPendingTransactions(safeAddress);
 
-                pendingTxs.results.forEach((tx: any) => {
-                    const txKey = `${tx.safe}${tx.nonce}${tx.safeTxHash}`;
+                    pendingTxs.results.forEach((tx: any) => {
+                        const txKey = `${tx.safe}${tx.nonce}${tx.safeTxHash}`;
 
-                    if (!known_tx.has(txKey)) {
-                        // New transaction detected
-                        known_tx.add(txKey);
-                        sendDiscordAlert(client, tx.safe, String(tx.nonce), tx.safeTxHash);
-                    }
-                });
+                        if (!known_tx.has(txKey)) {
+                            // New transaction detected
+                            known_tx.add(txKey);
+                            sendDiscordAlert(client, tx.safe, String(tx.nonce), tx.safeTxHash);
+                        }
+                    });
+                }));
             }));
-        } catch (error) {
-            console.error("Error fetching or processing transactions:", error);
+        } catch (error: any) {
+            if (error.message === 'Not Found') {
+                // Spécifique pour l'erreur "Not Found"
+                console.warn("No transactions found");
+            } else {
+                // Autres erreurs
+                console.error("Error :", error);
+            }
         }
 
         // Sleep for 10 seconds before checking again

@@ -3,5 +3,5 @@
         "SAFE_WALLET_ADDRESS_1",
         "SAFE_WALLET_ADDRESS_2"
     ],
-    "chainId": "CHAIN_ID"
+    "chainId": ["CHAIN_ID_1", "CHAIN_ID_2"]
 }
