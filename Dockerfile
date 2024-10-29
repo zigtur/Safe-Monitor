@@ -27,7 +27,7 @@ WORKDIR /app
 COPY --from=build /app/package.json ./
 COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/dist ./dist
-COPY --from=build /app/.params.json ./
+# COPY --from=build /app/.params.json ./
 
 # Step 10: Start the application
 CMD ["node", "dist/index.js"]

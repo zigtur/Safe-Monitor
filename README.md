@@ -64,7 +64,26 @@ To run the dev mode:
 npm install
 npm run dev
 ```
-## Docker
+
+## Run on Docker production
+
+Search for [beirao/safe-monitor:lastest](https://hub.docker.com/r/beirao/safe-monitor) on Docker hub.
+
+### Set the volume: add `params.json`
+
+**Host Path**: Select the path to your `/path/to/.params.json` file on your local machine.
+
+**Container Path**: Set this to `/app/.params.json`.
+
+### Set env
+
+```
+PARAMS_FILE="./params.json"
+DISCORD_CHANNEL_ID="your channel ID"
+DISCORD_TOKEN="your token"
+```
+
+## Docker Dev
 
 Install [Docker](https://www.docker.com/).
 
@@ -73,10 +92,19 @@ Create a `.params.json` file with your addresses and chain IDs you want to monit
 ```bash
 source .env
 
-sudo docker build -t monitoringsafetxs .
+docker login
 
-docker run -d --name safe-tx-monitor-container -e DISCORD_TOKEN=${DISCORD_TOKEN} -e DISCORD_CHANNEL_ID=${DISCORD_CHANNEL_ID} -e PARAMS_FILE="./.params.json" monitoringsafetxs
-````
+docker pull --platform linux/amd64 node:18-alpine
+
+docker build --platform linux/amd64 -t monitoringsafetxs --load .
+
+docker run -d -v ./.params.json:/app/.params.json --name safe-tx-monitor-container -e DISCORD_TOKEN=${DISCORD_TOKEN} -e DISCORD_CHANNEL_ID=${DISCORD_CHANNEL_ID} -e PARAMS_FILE="./.params.json" monitoringsafetxs
+```
+
+Generate the image:
+```bash
+sudo docker save -o safe-tx-monitor-container.tar monitoringsafetxs
+```
 
 ## Contributions
 
