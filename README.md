@@ -34,16 +34,17 @@ DISCORD_CHANNEL_ID=""
 DISCORD_TOKEN=""
 ```
 
-Then, set up your settings in `params.json`:
+Then, set up your settings in `.params.json`:
 
 ```json
 {
-    "safe-transaction-url": "",
     "safeWalletAddresses": [
-        "YOUR_SAFE_WALLET_ADDRESS"
+        "SAFE_WALLET_ADDRESS_1",
+        "SAFE_WALLET_ADDRESS_2"
     ],
-    "chainId": "CHAIN_ID"
+    "chainId": ["CHAIN_ID_1", "CHAIN_ID_2"]
 }
+
 ```
 
 You are good to go!
@@ -62,6 +63,47 @@ To run the dev mode:
 ```bash
 npm install
 npm run dev
+```
+
+## Run on Docker production
+
+Search for [beirao/safe-monitor:lastest](https://hub.docker.com/r/beirao/safe-monitor) on Docker hub.
+
+### Set the volume: add `params.json`
+
+**Host Path**: Select the path to your `/path/to/.params.json` file on your local machine.
+
+**Container Path**: Set this to `/app/.params.json`.
+
+### Set env
+
+```
+PARAMS_FILE="./params.json"
+DISCORD_CHANNEL_ID="your channel ID"
+DISCORD_TOKEN="your token"
+```
+
+## Docker Dev
+
+Install [Docker](https://www.docker.com/).
+
+Create a `.params.json` file with your addresses and chain IDs you want to monitor.
+
+```bash
+source .env
+
+docker login
+
+docker pull --platform linux/amd64 node:18-alpine
+
+docker build --platform linux/amd64 -t monitoringsafetxs --load .
+
+docker run -d -v ./.params.json:/app/.params.json --name safe-tx-monitor-container -e DISCORD_TOKEN=${DISCORD_TOKEN} -e DISCORD_CHANNEL_ID=${DISCORD_CHANNEL_ID} -e PARAMS_FILE="./.params.json" monitoringsafetxs
+```
+
+Generate the image:
+```bash
+sudo docker save -o safe-tx-monitor-container.tar monitoringsafetxs
 ```
 
 ## Contributions
