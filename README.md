@@ -67,7 +67,7 @@ npm run dev
 
 ## Run on Docker production
 
-Search for [beirao/safe-monitor:lastest](https://hub.docker.com/r/beirao/safe-monitor) on Docker hub.
+Search for [beirao/safe-monitor:latest](https://hub.docker.com/r/beirao/safe-monitor) on Docker hub.
 
 ### Set the volume: add `params.json`
 
